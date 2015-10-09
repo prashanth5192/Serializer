@@ -1,8 +1,3 @@
-/*
- * Reader and Writer's Problem for disk scheduler
- * CSE 511 Test Program
- */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -41,7 +36,7 @@ void *action(void* id)
 		Eat(tid, model_eat);
 		printf("Philosopher #%d 's eating is done.\n", tid);
 		Think(tid, model_think);
-	}
+	}	
 	return NULL;
 }
 

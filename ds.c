@@ -19,6 +19,7 @@ int CylinderNo		[DISK_SIZE * 10];
 float arrival_time	[DISK_SIZE * 10];
 int ServicedSeqNo	[DISK_SIZE * 10];
 int SeekedCylinders	[DISK_SIZE * 10];
+float ServicedTime	[DISK_SIZE * 10];
 char input_fname[20];
 char line[256];
 long size;
@@ -26,10 +27,13 @@ int rc;
 
 
 // Call this function inside your crowd [DON'T CHANGE]
-void model_request(int id, int seekedcylinders)
+void* model_request(int id, int seekedcylinders)
 {
 	printf("Request #%d is serving.\n", id);
+	ServicedTime[id] = seekedcylinders*CylinderSeekTime;
 	sleep(seekedcylinders * CylinderSeekTime);
+	printf("Request #%d is fnieshed serving in %f time.\n", id, seekedcylinders*CylinderSeekTime);
+
 };
 
 void *action(void* id)
@@ -39,8 +43,8 @@ void *action(void* id)
 	SeekedCylinders[tid] = -1;
 	// Get the cylinder number, and model_request function
 	// and return the serviced sequence number and the number of cylinders passed since last request
-	ServicedSeqNo[tid] = Disk_Request(CylinderNo[tid], (void*)model_request, SeekedCylinders+tid);
-	printf("Request #%d has been serviced.\n", tid);
+	ServicedSeqNo[tid] = Disk_Request(CylinderNo[tid], (void*)model_request, SeekedCylinders, tid);
+	printf("Request #%d has been serviced\n", tid);
 	return NULL;
 }
 
@@ -86,10 +90,10 @@ int main(int argc, char *argv[])
 	// Wait until all threads are done
 	int i;
 	for (i = 1; i < size; i++)
-		pthread_join (req_thread[size], NULL);
+		pthread_join (*(req_thread[i]), NULL);
 	for(i = 1; i < size; i++)
-	printf("RequestID = %d, ArrivalTime = %f, CylinderNo = %d, ServicedSeqNo = %d, SeekedCylinders = %d.\n",
-			i, arrival_time[i], CylinderNo[i], ServicedSeqNo[i], SeekedCylinders[i]);
+	printf("RequestID = %d, ArrivalTime = %f, Completion Time = %f, CylinderNo = %d, ServicedSeqNo = %d, SeekedCylinders = %d.\n",
+			i, arrival_time[i],ServicedTime[i]+arrival_time[i], CylinderNo[i], ServicedSeqNo[i], SeekedCylinders[i]);
 	printf("The results printed successfully!\n");
 	return 0;
 }

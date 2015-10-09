@@ -1,14 +1,16 @@
 #include<pthread.h>
-
+#include<semaphore.h>
 
 typedef int cond_t;
-typedef cond_t (*Function)(void *arg);
+typedef cond_t (*Function)();
 
 struct node
 {
 	int data;
+	int prio;
 	Function func;
 	pthread_t id;
+	sem_t mutex;
 	struct node *next;
 };
 
@@ -32,7 +34,11 @@ struct serializer
 {
 	int no_of_queues;
 	int crowd_count;
+	//sem_t mutex;
 	pthread_mutex_t lock;
+	sem_t queue_lock;
+	//sem_t crowd_lock;
+	//sem_t enter_lock;
 	queue_t *queues[100];
 	crowd_t *crowds[100];
 };
@@ -42,22 +48,15 @@ typedef struct serializer serial_t;
 serial_t* Create_Serial(); 
 void Serial_Enter(serial_t* serial); 
 void Serial_Exit(serial_t* serial); 
-queue_t *Create_Queue(serial_t* serializer); 
-crowd_t *Create_Crowd(serial_t* serializer); 
-int Queue_Empty(serial_t* serializer, queue_t* queue); 
-int Crowd_Empty(serial_t* serial, crowd_t* crowd); 
-void Serial_Enqueue(serial_t* serial, queue_t* queue, cond_t(*func)()); 
+void Serial_Enqueue(serial_t* serial, queue_t* queue, cond_t(*func)(), int prio);
 void Serial_Join_Crowd(serial_t* serial, crowd_t* crowd, void*(*func)());
-void enqueue(queue_t* queue, pthread_t id, cond_t(*func)());
-void dequeue(queue_t* queue);
+void leave_serializer(serial_t* serial);
 
-//Declarations of all possible functions//
-serial_t Create_Serial(); 
-Serial_Enter(serial_t); 
-Serial_Exit({serial_t); 
-	queue_t Create_Queue(serial_t); 
-	crowd_t Create_Crowd(serial_t); 
-	int Queue_Empty(serial_t, queue_t); 
-	int Crowd_Empty(serial_t, crowd_t); 
-	Serial_Enqueue(serial_t, queue_t, cond_t;(*func)()); 
-	Serial_Join_Crowd(serial_t,crowd_t,void*(*func)());
+crowd_t *Create_Crowd(serial_t* serializer); 
+int Crowd_Empty(serial_t* serial, crowd_t* crowd); 
+
+queue_t *Create_Queue(serial_t* serializer); 
+struct node* enqueue(queue_t* queue, pthread_t id, cond_t(*func)(), int prio);
+void dequeue(queue_t* queue);
+int Queue_Empty(serial_t* serializer, queue_t* queue); 
+
