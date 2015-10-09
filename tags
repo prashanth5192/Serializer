@@ -1,0 +1,33 @@
+Create_Crowd	serial.c	/^crowd_t* Create_Crowd(serial_t* serializer)$/
+Create_Queue	serial.c	/^queue_t* Create_Queue(serial_t* serializer)$/
+Create_Serial	serial.c	/^serial_t* Create_Serial()$/
+Crowd_Empty	serial.c	/^int Crowd_Empty(serial_t* serializer, crowd_t* cro/
+Eat	dp_serial.c	/^void *Eat(int phil_id, void (*model_eat)(int))$/
+Init_dp	dp_serial.c	/^void Init_dp(int nphilosophers)$/
+Mdp	dp.c	/^int main(int argc, char *argv[])$/
+Mrw	rw.c	/^int main(int argc, char *argv[])$/
+Queue_Empty	serial.c	/^int Queue_Empty(serial_t* serializer, queue_t* que/
+Serial_Enqueue	serial.c	/^void Serial_Enqueue(serial_t* serial,queue_t* queu/
+Serial_Enter	serial.c	/^void Serial_Enter(serial_t* serial)$/
+Serial_Exit	serial.c	/^void Serial_Exit(serial_t* serial)$/
+Serial_Join_Crowd	serial.c	/^void Serial_Join_Crowd(serial_t* serial, crowd_t* /
+Think	dp_serial.c	/^void *Think(int phil_id, void (*model_think)(int))/
+action	dp.c	/^void *action(void* id)$/
+arg	serial.h	/^typedef cond_t (*Function)(void *arg);$/
+cond_t	serial.h	/^typedef int cond_t;$/
+create	rw_serial.c	/^void create()$/
+crowd_t	serial.h	/^typedef struct crowd crowd_t;$/
+dequeue	serial.c	/^void dequeue(queue_t* queue)$/
+eat_cond	dp_serial.c	/^cond_t eat_cond(int phil_id)$/
+enqueue	serial.c	/^void enqueue(queue_t *queue, pthread_t id, cond_t /
+model_eat	dp.c	/^void *model_eat(int id)$/
+model_think	dp.c	/^void *model_think(int id)$/
+queue_t	serial.h	/^typedef struct queue queue_t;$/
+read_data	rw_serial.c	/^long* read_data()$/
+read_func	rw_serial.c	/^void *read_func(void *id)$/
+read_queue_cond	rw_serial.c	/^cond_t read_queue_cond()$/
+serial_t	serial.h	/^typedef struct serializer serial_t;$/
+think_cond	dp_serial.c	/^cond_t think_cond(int phil_id)$/
+write_data	rw_serial.c	/^void* write_data()$/
+write_func	rw_serial.c	/^void *write_func(void *id)$/
+write_queue_cond	rw_serial.c	/^cond_t write_queue_cond()$/
