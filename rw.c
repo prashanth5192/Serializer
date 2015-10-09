@@ -2,7 +2,7 @@
  * Reader and Writer's Problem for disk scheduler
  * CSE 511 Test Program
  */
-
+//
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
