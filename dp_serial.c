@@ -26,7 +26,6 @@ void *Eat(int phil_id, void *(*model_eat)())
 {
 	cond_t eat_cond()
 	{
-		//printf("*** %d\n",phil_id);
 		int left,right;
 		if(phil_id > 0)
 			left = (phil_id-1);
@@ -44,14 +43,19 @@ void *Eat(int phil_id, void *(*model_eat)())
 	void * eating()
 	{
 		model_eat(phil_id);
-		state[phil_id] = 0;//think aft eating
 
 	}
 
 	Serial_Enter(serial);
 	state[phil_id] = 1; // hungry
 	Serial_Enqueue(serial, waiting_queue, &eat_cond, 0);
-	Serial_Join_Crowd(serial, eating_crowd,  &eating);
+	Serial_Join_Crowd(serial, eating_crowd,  &eating);	
+	if(state[phil_id]==2)
+	{	
+		printf("philosopher %d is done eating\n",phil_id);
+		state[phil_id] = 0;	//think aft eating
+
+	}
 	Serial_Exit(serial);
 	//pthread_exit(NULL);
 }
