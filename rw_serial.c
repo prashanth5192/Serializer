@@ -52,7 +52,7 @@ void *read_func(void *id)
 	Serial_Enter(serializer);
 	printf("Reader thread #%ld starts!\n", tid);
 	Serial_Enqueue(serializer, waiting_q, &read_queue_cond, 0);
-	//printf("reader dequed %ld \n",tid);
+	printf("reader thread %ld going to join crowd \n",tid);
 	Serial_Join_Crowd(serializer, readers_crowd,(void *) (&read_data));
 	//printf("reader thread joins %ld crowd\n",tid);
 	Serial_Exit(serializer);

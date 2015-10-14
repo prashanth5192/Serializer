@@ -6,7 +6,6 @@ typedef cond_t (*Function)();
 
 struct node
 {
-	int data;
 	int prio;
 	Function func;
 	pthread_t id;
@@ -34,11 +33,7 @@ struct serializer
 {
 	int no_of_queues;
 	int crowd_count;
-	//sem_t mutex;
-	pthread_mutex_t lock;
 	sem_t queue_lock;
-	//sem_t crowd_lock;
-	//sem_t enter_lock;
 	queue_t *queues[100];
 	crowd_t *crowds[100];
 };
@@ -56,7 +51,7 @@ crowd_t *Create_Crowd(serial_t* serializer);
 int Crowd_Empty(serial_t* serial, crowd_t* crowd); 
 
 queue_t *Create_Queue(serial_t* serializer); 
-struct node* enqueue(queue_t* queue, pthread_t id, cond_t(*func)(), int prio);
+queue_t* enqueue(queue_t* queue, pthread_t id, cond_t(*func)(), int prio);
 void dequeue(queue_t* queue);
 int Queue_Empty(serial_t* serializer, queue_t* queue); 
 
